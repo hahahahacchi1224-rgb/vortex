@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="VORTEX">
-<title>VORTEX ハンドリング記録</title>
+<title>VORTEX ãã³ããªã³ã°è¨é²</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root{--bg:#0f0f1a;--surface:#1a1a2e;--surface2:#16213e;--border:#2a2a4a;--accent:#6c63ff;--accent2:#f5a623;--text:#e0e0f0;--text-sub:#8888aa;--radius:12px;--green:#4caf50;--red:#f44336}
@@ -30,7 +30,7 @@ input[type=date],select{background:var(--surface2);border:1px solid var(--border
 .count-ctrl{display:flex;align-items:center;gap:8px}
 .count-ctrl button{width:34px;height:34px;border-radius:50%;border:none;font-size:18px;cursor:pointer;font-weight:700;background:var(--surface2);color:var(--text)}
 .count-ctrl button:active{background:var(--accent)}
-.count-val{font-size:20px;font-weight:700;min-width:36px;text-align:center}
+.count-val{display:none}.count-input{font-size:20px;font-weight:700;width:68px;text-align:center;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);padding:3px 4px;-moz-appearance:textfield;}.count-input::-webkit-inner-spin-button,.count-input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .absent-toggle{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-sub);cursor:pointer}
 .absent-toggle input{accent-color:var(--accent2)}
 .btn-save-all{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),#9c88ff);border:none;border-radius:var(--radius);color:#fff;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px}
@@ -82,99 +82,99 @@ input[type=date],select{background:var(--surface2);border:1px solid var(--border
 </head>
 <body>
 <header class="app-header">
-  <div class="app-title">⚡ VORTEX</div>
+  <div class="app-title">â¡ VORTEX</div>
   <div style="display:flex;gap:8px;align-items:center">
-    <button class="btn-pdf no-print" onclick="openReport()">📄 レポート</button>
-    <span id="sync-label" style="font-size:12px;color:var(--text-sub)"><span class="sync-dot" id="sync-dot"></span>接続中</span>
+    <button class="btn-pdf no-print" onclick="openReport()">ð ã¬ãã¼ã</button>
+    <span id="sync-label" style="font-size:12px;color:var(--text-sub)"><span class="sync-dot" id="sync-dot"></span>æ¥ç¶ä¸­</span>
   </div>
 </header>
 <nav class="tab-bar">
-  <button class="tab-btn active" onclick="showTab('record')">📝 記録</button>
-  <button class="tab-btn" onclick="showTab('list')">📋 一覧</button>
-  <button class="tab-btn" onclick="showTab('stats')">📊 集計</button>
-  <button class="tab-btn" onclick="showTab('settings')">⚙️ 設定</button>
+  <button class="tab-btn active" onclick="showTab('record')">ð è¨é²</button>
+  <button class="tab-btn" onclick="showTab('list')">ð ä¸è¦§</button>
+  <button class="tab-btn" onclick="showTab('stats')">ð éè¨</button>
+  <button class="tab-btn" onclick="showTab('settings')">âï¸ è¨­å®</button>
 </nav>
 <div id="tab-record" class="tab-content active">
   <div class="record-topbar">
-    <div class="topbar-field"><label>日付</label><input type="date" id="inp-date"></div>
-    <div class="topbar-field"><label>メニュー</label><select id="inp-menu" onchange="updateUnitLabels()"></select></div>
+    <div class="topbar-field"><label>æ¥ä»</label><input type="date" id="inp-date"></div>
+    <div class="topbar-field"><label>ã¡ãã¥ã¼</label><select id="inp-menu" onchange="updateUnitLabels()"></select></div>
   </div>
   <div id="player-list"></div>
-  <button class="btn-save-all" onclick="saveAll()">💾 全員まとめて保存</button>
+  <button class="btn-save-all" onclick="saveAll()">ð¾ å¨å¡ã¾ã¨ãã¦ä¿å­</button>
 </div>
 <div id="tab-list" class="tab-content">
   <div class="filter-bar">
-    <select id="fl-player" onchange="renderList()"><option value="">全選手</option></select>
-    <select id="fl-menu" onchange="renderList()"><option value="">全メニュー</option></select>
+    <select id="fl-player" onchange="renderList()"><option value="">å¨é¸æ</option></select>
+    <select id="fl-menu" onchange="renderList()"><option value="">å¨ã¡ãã¥ã¼</option></select>
   </div>
   <div id="list-container"></div>
 </div>
 <div id="tab-stats" class="tab-content">
   <div class="filter-bar no-print">
-    <select id="st-player" onchange="renderStats()"><option value="">全選手</option></select>
-    <select id="st-menu" onchange="renderStats()"><option value="">全メニュー</option></select>
+    <select id="st-player" onchange="renderStats()"><option value="">å¨é¸æ</option></select>
+    <select id="st-menu" onchange="renderStats()"><option value="">å¨ã¡ãã¥ã¼</option></select>
   </div>
   <div id="stats-container"></div>
 </div>
 <div id="tab-settings" class="tab-content">
-  <div class="section-title">選手</div>
+  <div class="section-title">é¸æ</div>
   <div class="tags-area" id="player-tags"></div>
-  <div class="add-row"><input type="text" id="new-player" placeholder="選手名を追加"><button onclick="addPlayer()">追加</button></div>
-  <div class="section-title">メニュー</div>
+  <div class="add-row"><input type="text" id="new-player" placeholder="é¸æåãè¿½å "><button onclick="addPlayer()">è¿½å </button></div>
+  <div class="section-title">ã¡ãã¥ã¼</div>
   <div class="tags-area" id="menu-tags"></div>
-  <div class="add-row"><input type="text" id="new-menu" placeholder="メニューを追加"><button onclick="addMenu()">追加</button></div>
-  <div class="section-title">データ</div>
-  <button class="btn-danger" onclick="clearAll()">🗑️ 全データ削除</button>
+  <div class="add-row"><input type="text" id="new-menu" placeholder="ã¡ãã¥ã¼ãè¿½å "><button onclick="addMenu()">è¿½å </button></div>
+  <div class="section-title">ãã¼ã¿</div>
+  <button class="btn-danger" onclick="clearAll()">ðï¸ å¨ãã¼ã¿åé¤</button>
 </div>
 <div class="toast" id="toast"></div>
 <div id="report-modal" class="modal-overlay">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">📊 選手別 成長レポート</span>
+      <span class="modal-title">ð é¸æå¥ æé·ã¬ãã¼ã</span>
       <button class="modal-close" onclick="closeReport()">&#10005;</button>
     </div>
     <div class="filter-bar no-print">
-      <select id="rp-player" onchange="renderReport()"><option value="">全選手</option></select>
-      <select id="rp-menu" onchange="renderReport()"><option value="">全メニュー</option></select>
+      <select id="rp-player" onchange="renderReport()"><option value="">å¨é¸æ</option></select>
+      <select id="rp-menu" onchange="renderReport()"><option value="">å¨ã¡ãã¥ã¼</option></select>
     </div>
     <div id="report-container"></div>
     <div style="margin-top:16px;text-align:right" class="no-print">
-      <button class="btn-pdf" onclick="printReport()">🖸️ PDFに保存</button>
+      <button class="btn-pdf" onclick="printReport()">ð¸ï¸ PDFã«ä¿å­</button>
     </div>
   </div>
 </div>
 <script>
-const FB='https://vortex-handling-default-rtdb.asia-southeast1.firebasedatabase.app',FP='/vortex-state',RUN='２０M走';
-let state={players:['りんたろう','きっぷい','さくのすけ','ゆうせい','だん'],menus:['頭回し右','頭回し左','胴回し右','胴回し左','膈回し右','膈回し左','八の字前','八の字後','縄跳び','２０Mシャトルラン','２０M走'],entries:[],saveTimer:null,isSaving:false};
+const FB='https://vortex-handling-default-rtdb.asia-southeast1.firebasedatabase.app',FP='/vortex-state',RUN='ï¼ï¼Mèµ°';
+let state={players:['ããããã','ãã£ã·ã','ããã®ãã','ãããã','ã ã'],menus:['é ­åãå³','é ­åãå·¦','è´åãå³','è´åãå·¦','èåãå³','èåãå·¦','å«ã®å­å','å«ã®å­å¾','ç¸è·³ã³','ï¼ï¼Mã·ã£ãã«ã©ã³','ï¼ï¼Mèµ°'],entries:[],saveTimer:null,isSaving:false};
 let _charts={};
 function fbGet(){return fetch(FB+FP+'.json').then(r=>r.ok?r.json():null).catch(()=>null)}
 function fbSet(d){return fetch(FB+FP+'.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{})}
-function setSS(s){const d=document.getElementById('sync-dot'),l=document.getElementById('sync-label');if(!d)return;if(s==='online'){d.className='sync-dot';if(l)l.innerHTML='<span class="sync-dot" id="sync-dot"></span>接続中';}else{d.className='sync-dot offline';if(l)l.innerHTML='<span class="sync-dot offline" id="sync-dot"></span>オフライン';}}
+function setSS(s){const d=document.getElementById('sync-dot'),l=document.getElementById('sync-label');if(!d)return;if(s==='online'){d.className='sync-dot';if(l)l.innerHTML='<span class="sync-dot" id="sync-dot"></span>æ¥ç¶ä¸­';}else{d.className='sync-dot offline';if(l)l.innerHTML='<span class="sync-dot offline" id="sync-dot"></span>ãªãã©ã¤ã³';}}
 async function save(){if(state.isSaving)return;state.isSaving=true;state.ts=Date.now();try{await fbSet(state);setSS('online');}catch(e){setSS('offline');}state.isSaving=false;}
 function debounceSave(){if(state.saveTimer)clearTimeout(state.saveTimer);state.saveTimer=setTimeout(save,800);}
 function showTab(t){document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(e=>e.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelectorAll('.tab-btn')[['record','list','stats','settings'].indexOf(t)].classList.add('active');if(t==='list')renderList();if(t==='stats')renderStats();if(t==='settings')renderTags();}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
-function cStr(count,menu){if(menu===RUN)return count+'m';return count+'回';}
+function cStr(count,menu){if(menu===RUN)return count+'m';return count+'å';}
 function updateUnitLabels(){renderPlayerList();}
-function renderPlayerList(){const pl=document.getElementById('player-list');if(!pl)return;let h='';state.players.forEach((p,pi)=>{h+='<div class="player-card"><div class="player-name">'+p+'</div><div class="count-row"><span class="count-label">回数</span><div class="count-ctrl"><button class="adj-btn" data-idx="'+pi+'" data-d="-1">−</button><span class="count-val" id="cv-'+pi+'">0</span><button class="adj-btn" data-idx="'+pi+'" data-d="1">＋</button></div></div><label class="absent-toggle"><input type="checkbox" id="ab-'+pi+'" class="abs-chk"> 欠席</label></div>';});pl.innerHTML=h;pl.querySelectorAll('.adj-btn').forEach(btn=>btn.addEventListener('click',()=>adj(+btn.dataset.idx,+btn.dataset.d)));}
-function adj(i,d){const el=document.getElementById('cv-'+i);let v=parseInt(el.textContent)||0;v=Math.max(0,v+d);el.textContent=v;}
-async function saveAll(){const date=document.getElementById('inp-date').value;const menu=document.getElementById('inp-menu').value;if(!date){showToast('日付を選択してください');return;}if(!menu){showToast('メニューを選択してください');return;}let saved=0;state.players.forEach((p,i)=>{const absent=document.getElementById('ab-'+i)?.checked||false;const count=parseInt(document.getElementById('cv-'+i)?.textContent)||0;if(absent||count>0){state.entries.push({id:Date.now()+'-'+i,player:p,menu,date,count,absent});saved++;}});if(saved===0){showToast('記録がありません');return;}debounceSave();showToast(saved+'人分保存しました');document.querySelectorAll('.count-val').forEach(e=>e.textContent='0');document.querySelectorAll('.abs-chk').forEach(e=>e.checked=false);}
-function renderMenuOptions(){['inp-menu','fl-menu','st-menu','rp-menu'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const cur=el.value;const isFilter=(id!=='inp-menu');let h=isFilter?'<option value="">全メニュー</option>':'';state.menus.forEach(m=>{h+='<option value="'+m+'">'+m+'</option>';});el.innerHTML=h;if(state.menus.includes(cur))el.value=cur;});}
-function renderPlayerOptions(){['fl-player','st-player','rp-player'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const cur=el.value;let h='<option value="">全選手</option>';state.players.forEach(p=>{h+='<option value="'+p+'">'+p+'</option>';});el.innerHTML=h;if(state.players.includes(cur))el.value=cur;});}
-function renderList(){const fp=document.getElementById('fl-player')?.value||'';const fm=document.getElementById('fl-menu')?.value||'';const el=document.getElementById('list-container');if(!el)return;let entries=[...state.entries].filter(e=>(fp?e.player===fp:true)&&(fm?e.menu===fm:true));entries.sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));let h='';if(!entries.length){h='<div class="no-data">記録がありません</div>';}else{entries.forEach(e=>{h+='<div class="entry-card"><div><div class="entry-menu">'+e.menu+'<small style="color:var(--text-sub);font-size:11px;margin-left:6px">'+e.player+'</small></div><div class="entry-meta">'+e.date+'</div></div><div style="display:flex;align-items:center;gap:8px">'+(e.absent?'<span class="entry-absent">欠席</span>':'<span class="entry-count">'+cStr(e.count,e.menu)+'</span>')+'<button class="del-btn" data-id="'+e.id+'">&#215;</button></div></div>';});}el.innerHTML=h;el.querySelectorAll('.del-btn').forEach(btn=>btn.addEventListener('click',()=>delEntry(btn.dataset.id)));}
-function delEntry(id){if(!confirm('この記録を削除しますか？'))return;state.entries=state.entries.filter(e=>e.id!==id);debounceSave();renderList();showToast('削除しました');}
+function renderPlayerList(){const pl=document.getElementById('player-list');if(!pl)return;let h='';state.players.forEach((p,pi)=>{h+='<div class="player-card"><div class="player-name">'+p+'</div><div class="count-row"><span class="count-label">åæ°</span><div class="count-ctrl"><button class="adj-btn" data-idx="'+pi+'" data-d="-1">â</button><span class="count-val" id="cv-'+pi+'">0</span><input class="count-input" id="ci-'+pi+'" type="number" min="0" value="0"><button class="adj-btn" data-idx="'+pi+'" data-d="1">ï¼</button></div></div><label class="absent-toggle"><input type="checkbox" id="ab-'+pi+'" class="abs-chk"> æ¬ å¸­</label></div>';});pl.innerHTML=h;pl.querySelectorAll('.adj-btn').forEach(btn=>btn.addEventListener('click',()=>adj(+btn.dataset.idx,+btn.dataset.d)));}
+function adj(i,d){const inp=document.getElementById('ci-'+i);let v=parseInt(inp.value)||0;v=Math.max(0,v+d);inp.value=v;}
+async function saveAll(){const date=document.getElementById('inp-date').value;const menu=document.getElementById('inp-menu').value;if(!date){showToast('æ¥ä»ãé¸æãã¦ãã ãã');return;}if(!menu){showToast('ã¡ãã¥ã¼ãé¸æãã¦ãã ãã');return;}let saved=0;state.players.forEach((p,i)=>{const absent=document.getElementById('ab-'+i)?.checked||false;const count=parseInt(document.getElementById('ci-'+i)?.value)||0;if(absent||count>0){state.entries.push({id:Date.now()+'-'+i,player:p,menu,date,count,absent});saved++;}});if(saved===0){showToast('è¨é²ãããã¾ãã');return;}debounceSave();showToast(saved+'äººåä¿å­ãã¾ãã');document.querySelectorAll('.count-input').forEach(e=>e.value='0');document.querySelectorAll('.abs-chk').forEach(e=>e.checked=false);}
+function renderMenuOptions(){['inp-menu','fl-menu','st-menu','rp-menu'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const cur=el.value;const isFilter=(id!=='inp-menu');let h=isFilter?'<option value="">å¨ã¡ãã¥ã¼</option>':'';state.menus.forEach(m=>{h+='<option value="'+m+'">'+m+'</option>';});el.innerHTML=h;if(state.menus.includes(cur))el.value=cur;});}
+function renderPlayerOptions(){['fl-player','st-player','rp-player'].forEach(id=>{const el=document.getElementById(id);if(!el)return;const cur=el.value;let h='<option value="">å¨é¸æ</option>';state.players.forEach(p=>{h+='<option value="'+p+'">'+p+'</option>';});el.innerHTML=h;if(state.players.includes(cur))el.value=cur;});}
+function renderList(){const fp=document.getElementById('fl-player')?.value||'';const fm=document.getElementById('fl-menu')?.value||'';const el=document.getElementById('list-container');if(!el)return;let entries=[...state.entries].filter(e=>(fp?e.player===fp:true)&&(fm?e.menu===fm:true));entries.sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));let h='';if(!entries.length){h='<div class="no-data">è¨é²ãããã¾ãã</div>';}else{entries.forEach(e=>{h+='<div class="entry-card"><div><div class="entry-menu">'+e.menu+'<small style="color:var(--text-sub);font-size:11px;margin-left:6px">'+e.player+'</small></div><div class="entry-meta">'+e.date+'</div></div><div style="display:flex;align-items:center;gap:8px">'+(e.absent?'<span class="entry-absent">æ¬ å¸­</span>':'<span class="entry-count">'+cStr(e.count,e.menu)+'</span>')+'<button class="del-btn" data-id="'+e.id+'">&#215;</button></div></div>';});}el.innerHTML=h;el.querySelectorAll('.del-btn').forEach(btn=>btn.addEventListener('click',()=>delEntry(btn.dataset.id)));}
+function delEntry(id){if(!confirm('ãã®è¨é²ãåé¤ãã¾ããï¼'))return;state.entries=state.entries.filter(e=>e.id!==id);debounceSave();renderList();showToast('åé¤ãã¾ãã');}
 function destroyCharts(){Object.values(_charts).forEach(c=>{try{c.destroy();}catch(e){}});_charts={};}
-function renderStats(){destroyCharts();const sp=document.getElementById('st-player')?.value||'';const sm=document.getElementById('st-menu')?.value||'';const el=document.getElementById('stats-container');if(!el)return;const players=sp?[sp]:state.players;const menus=sm?[sm]:state.menus;let h='';players.forEach(player=>{const pe=state.entries.filter(e=>e.player===player&&!e.absent);if(!pe.length)return;h+='<div class="stats-player-section"><div class="stats-player-name">🏃 '+player+'</div>';const ts=new Set(pe.map(e=>e.date)).size;h+='<span class="stats-total-badge">参加 '+ts+' 回</span>';menus.forEach(menu=>{const me=pe.filter(e=>e.menu===menu).sort((a,b)=>a.date.localeCompare(b.date));if(!me.length)return;const counts=me.map(e=>e.count);const maxC=Math.max(...counts);const lastC=counts[counts.length-1];const diff=lastC-counts[0];const avgC=Math.round(counts.reduce((a,b)=>a+b,0)/counts.length);const cid='c'+Math.random().toString(36).slice(2);h+='<div class="stats-menu-section"><div class="stats-menu-title">'+menu+'</div><div class="chart-wrapper"><canvas id="'+cid+'"></canvas></div>';h+='<div class="stats-summary-row"><div class="stat-badge best">🏆 最高 <span>'+cStr(maxC,menu)+'</span></div><div class="stat-badge growth">📈 成長 <span>'+(diff>=0?'+':'')+cStr(Math.abs(diff),menu)+'</span></div><div class="stat-badge challenge">🎯 今回 <span>'+cStr(lastC,menu)+'</span></div><div class="stat-badge">📅 回数 <span>'+me.length+'回</span></div></div></div>';setTimeout(()=>{const cv=document.getElementById(cid);if(!cv)return;const labels=me.map(e=>e.date.slice(5));_charts[cid]=new Chart(cv,{type:'line',data:{labels,datasets:[{data:counts,borderColor:'#6c63ff',backgroundColor:'rgba(108,99,255,0.15)',borderWidth:2.5,pointBackgroundColor:counts.map(c=>c===maxC?'#f5a623':'#6c63ff'),pointRadius:counts.map(c=>c===maxC?7:4),tension:0.35,fill:true},{data:Array(counts.length).fill(avgC),borderColor:'rgba(255,255,255,0.2)',borderDash:[4,4],borderWidth:1,pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>cStr(ctx.raw,menu)}}},scales:{x:{ticks:{color:'#8888aa',font:{size:10}},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'#8888aa',font:{size:10},callback:v=>cStr(v,menu)},grid:{color:'rgba(255,255,255,0.07)'},beginAtZero:true}}}});},50);});h+='</div>';});if(!h)h='<div class="no-data">記録がありません</div>';el.innerHTML=h;}
+function renderStats(){destroyCharts();const sp=document.getElementById('st-player')?.value||'';const sm=document.getElementById('st-menu')?.value||'';const el=document.getElementById('stats-container');if(!el)return;const players=sp?[sp]:state.players;const menus=sm?[sm]:state.menus;let h='';players.forEach(player=>{const pe=state.entries.filter(e=>e.player===player&&!e.absent);if(!pe.length)return;h+='<div class="stats-player-section"><div class="stats-player-name">ð '+player+'</div>';const ts=new Set(pe.map(e=>e.date)).size;h+='<span class="stats-total-badge">åå  '+ts+' å</span>';menus.forEach(menu=>{const me=pe.filter(e=>e.menu===menu).sort((a,b)=>a.date.localeCompare(b.date));if(!me.length)return;const counts=me.map(e=>e.count);const maxC=Math.max(...counts);const lastC=counts[counts.length-1];const diff=lastC-counts[0];const avgC=Math.round(counts.reduce((a,b)=>a+b,0)/counts.length);const cid='c'+Math.random().toString(36).slice(2);h+='<div class="stats-menu-section"><div class="stats-menu-title">'+menu+'</div><div class="chart-wrapper"><canvas id="'+cid+'"></canvas></div>';h+='<div class="stats-summary-row"><div class="stat-badge best">ð æé« <span>'+cStr(maxC,menu)+'</span></div><div class="stat-badge growth">ð æé· <span>'+(diff>=0?'+':'')+cStr(Math.abs(diff),menu)+'</span></div><div class="stat-badge challenge">ð¯ ä»å <span>'+cStr(lastC,menu)+'</span></div><div class="stat-badge">ð åæ° <span>'+me.length+'å</span></div></div></div>';setTimeout(()=>{const cv=document.getElementById(cid);if(!cv)return;const labels=me.map(e=>e.date.slice(5));_charts[cid]=new Chart(cv,{type:'line',data:{labels,datasets:[{data:counts,borderColor:'#6c63ff',backgroundColor:'rgba(108,99,255,0.15)',borderWidth:2.5,pointBackgroundColor:counts.map(c=>c===maxC?'#f5a623':'#6c63ff'),pointRadius:counts.map(c=>c===maxC?7:4),tension:0.35,fill:true},{data:Array(counts.length).fill(avgC),borderColor:'rgba(255,255,255,0.2)',borderDash:[4,4],borderWidth:1,pointRadius:0,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>cStr(ctx.raw,menu)}}},scales:{x:{ticks:{color:'#8888aa',font:{size:10}},grid:{color:'rgba(255,255,255,0.05)'}},y:{ticks:{color:'#8888aa',font:{size:10},callback:v=>cStr(v,menu)},grid:{color:'rgba(255,255,255,0.07)'},beginAtZero:true}}}});},50);});h+='</div>';});if(!h)h='<div class="no-data">è¨é²ãããã¾ãã</div>';el.innerHTML=h;}
 function renderTags(){const pt=document.getElementById('player-tags');const mt=document.getElementById('menu-tags');if(!pt||!mt)return;pt.innerHTML=state.players.map((p,i)=>'<div class="tag">'+p+'<button class="remove rp-btn" data-idx="'+i+'">&#215;</button></div>').join('');mt.innerHTML=state.menus.map((m,i)=>'<div class="tag">'+m+'<button class="remove rm-btn" data-idx="'+i+'">&#215;</button></div>').join('');pt.querySelectorAll('.rp-btn').forEach(b=>b.addEventListener('click',()=>removePlayer(+b.dataset.idx)));mt.querySelectorAll('.rm-btn').forEach(b=>b.addEventListener('click',()=>removeMenu(+b.dataset.idx)));}
 function addPlayer(){const el=document.getElementById('new-player');const n=el?.value.trim();if(!n)return;if(!state.players.includes(n)){state.players.push(n);save();renderAll();}el.value='';}
-function removePlayer(i){if(!confirm(state.players[i]+'を削除しますか？'))return;state.players.splice(i,1);save();renderAll();}
+function removePlayer(i){if(!confirm(state.players[i]+'ãåé¤ãã¾ããï¼'))return;state.players.splice(i,1);save();renderAll();}
 function addMenu(){const el=document.getElementById('new-menu');const n=el?.value.trim();if(!n)return;if(!state.menus.includes(n)){state.menus.push(n);save();renderAll();}el.value='';}
-function removeMenu(i){if(!confirm(state.menus[i]+'を削除しますか？'))return;state.menus.splice(i,1);save();renderAll();}
-function clearAll(){if(!confirm('全データを削除しますか？'))return;state.entries=[];save();renderAll();showToast('削除しました');}
+function removeMenu(i){if(!confirm(state.menus[i]+'ãåé¤ãã¾ããï¼'))return;state.menus.splice(i,1);save();renderAll();}
+function clearAll(){if(!confirm('å¨ãã¼ã¿ãåé¤ãã¾ããï¼'))return;state.entries=[];save();renderAll();showToast('åé¤ãã¾ãã');}
 function renderAll(){renderMenuOptions();renderPlayerOptions();renderPlayerList();}
 function openReport(){document.getElementById('report-modal').classList.add('open');renderReport();}
 function closeReport(){document.getElementById('report-modal').classList.remove('open');}
-function renderReport(){const sp=document.getElementById('rp-player')?.value||'';const sm=document.getElementById('rp-menu')?.value||'';const el=document.getElementById('report-container');if(!el)return;const players=sp?[sp]:state.players;const menus=sm?[sm]:state.menus;let h='';players.forEach(player=>{const pe=state.entries.filter(e=>e.player===player&&!e.absent);if(!pe.length)return;h+='<div class="stats-player-section"><div class="stats-player-name">🏃 '+player+'</div>';menus.forEach(menu=>{const me=pe.filter(e=>e.menu===menu).sort((a,b)=>a.date.localeCompare(b.date));if(!me.length)return;const counts=me.map(e=>e.count);const maxC=Math.max(...counts);const lastC=counts[counts.length-1];const diff=lastC-counts[0];const avgC=Math.round(counts.reduce((a,b)=>a+b,0)/counts.length);const ac=diff>0?'up':diff<0?'down':'same';const ar=diff>0?'▲':diff<0?'▼':'―';h+='<div class="stats-menu-section"><div class="stats-menu-title">'+menu+'</div><div class="stats-summary-row"><div class="stat-badge best">🏆 最高 <span>'+cStr(maxC,menu)+'</span></div><div class="stat-badge challenge">🎯 最新 <span>'+cStr(lastC,menu)+'</span></div><div class="stat-badge growth">📈 初回比 <span class="growth-arrow '+ac+'">'+ar+(diff>=0?'+':'')+cStr(Math.abs(diff),menu)+'</span></div><div class="stat-badge">📊 平均 <span>'+cStr(avgC,menu)+'</span></div><div class="stat-badge">📅 参加 <span>'+me.length+'回</span></div></div>';h+='<div style="overflow-x:auto;margin-top:8px"><table style="font-size:11px;width:100%;border-collapse:collapse"><thead><tr>';me.forEach(e=>{h+='<th style="padding:3px 5px;font-weight:normal;min-width:40px;color:#888">'+e.date.slice(5)+'</th>';});h+='</tr></thead><tbody><tr>';me.forEach((e,idx)=>{const prev=idx>0?me[idx-1].count:null;const d=prev!==null?e.count-prev:null;const bg=d===null?'':(d>0?'rgba(76,175,80,0.2)':d<0?'rgba(244,67,54,0.2)':'');h+='<td style="padding:3px 5px;text-align:center;font-weight:700;background:'+bg+'">'+cStr(e.count,menu)+(d!==null?'<br><small style="color:'+(d>0?'#4caf50':d<0?'#f44336':'#888')+'">'+((d>0?'+':'')+d)+'</small>':'')+'</td>';});h+='</tr></tbody></table></div></div>';});h+='</div>';});if(!h)h='<div class="no-data">記録がありません</div>';el.innerHTML=h;}
+function renderReport(){const sp=document.getElementById('rp-player')?.value||'';const sm=document.getElementById('rp-menu')?.value||'';const el=document.getElementById('report-container');if(!el)return;const players=sp?[sp]:state.players;const menus=sm?[sm]:state.menus;let h='';players.forEach(player=>{const pe=state.entries.filter(e=>e.player===player&&!e.absent);if(!pe.length)return;h+='<div class="stats-player-section"><div class="stats-player-name">ð '+player+'</div>';menus.forEach(menu=>{const me=pe.filter(e=>e.menu===menu).sort((a,b)=>a.date.localeCompare(b.date));if(!me.length)return;const counts=me.map(e=>e.count);const maxC=Math.max(...counts);const lastC=counts[counts.length-1];const diff=lastC-counts[0];const avgC=Math.round(counts.reduce((a,b)=>a+b,0)/counts.length);const ac=diff>0?'up':diff<0?'down':'same';const ar=diff>0?'â²':diff<0?'â¼':'â';h+='<div class="stats-menu-section"><div class="stats-menu-title">'+menu+'</div><div class="stats-summary-row"><div class="stat-badge best">ð æé« <span>'+cStr(maxC,menu)+'</span></div><div class="stat-badge challenge">ð¯ ææ° <span>'+cStr(lastC,menu)+'</span></div><div class="stat-badge growth">ð ååæ¯ <span class="growth-arrow '+ac+'">'+ar+(diff>=0?'+':'')+cStr(Math.abs(diff),menu)+'</span></div><div class="stat-badge">ð å¹³å <span>'+cStr(avgC,menu)+'</span></div><div class="stat-badge">ð åå  <span>'+me.length+'å</span></div></div>';h+='<div style="overflow-x:auto;margin-top:8px"><table style="font-size:11px;width:100%;border-collapse:collapse"><thead><tr>';me.forEach(e=>{h+='<th style="padding:3px 5px;font-weight:normal;min-width:40px;color:#888">'+e.date.slice(5)+'</th>';});h+='</tr></thead><tbody><tr>';me.forEach((e,idx)=>{const prev=idx>0?me[idx-1].count:null;const d=prev!==null?e.count-prev:null;const bg=d===null?'':(d>0?'rgba(76,175,80,0.2)':d<0?'rgba(244,67,54,0.2)':'');h+='<td style="padding:3px 5px;text-align:center;font-weight:700;background:'+bg+'">'+cStr(e.count,menu)+(d!==null?'<br><small style="color:'+(d>0?'#4caf50':d<0?'#f44336':'#888')+'">'+((d>0?'+':'')+d)+'</small>':'')+'</td>';});h+='</tr></tbody></table></div></div>';});h+='</div>';});if(!h)h='<div class="no-data">è¨é²ãããã¾ãã</div>';el.innerHTML=h;}
 function printReport(){window.print();}
 async function init(){const d=await fbGet();if(d&&Array.isArray(d.players)){state={...state,...d};}renderAll();setInterval(async()=>{const d=await fbGet();if(d&&d.ts&&d.ts!==state.ts){state={...state,...d};renderAll();}},10000);document.getElementById('inp-date').value=new Date().toISOString().slice(0,10);}
 init();
